@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+
+whatsapp:
+  access-token: "your-access-token"
+  phone-number-id: "your-phone-number-id"
+  verify-token: "your-verify-token"
+  app-secret: "your-app-secret"
+  api-version: "v19.0"

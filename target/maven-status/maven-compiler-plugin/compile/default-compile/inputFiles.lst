@@ -1,0 +1,17 @@
+/app/src/main/java/com/example/whatsapp/WhatsappApplication.java
+/app/src/main/java/com/example/whatsapp/config/RestClientConfig.java
+/app/src/main/java/com/example/whatsapp/config/WhatsappProperties.java
+/app/src/main/java/com/example/whatsapp/controller/WebhookController.java
+/app/src/main/java/com/example/whatsapp/dto/Change.java
+/app/src/main/java/com/example/whatsapp/dto/Contact.java
+/app/src/main/java/com/example/whatsapp/dto/Entry.java
+/app/src/main/java/com/example/whatsapp/dto/Message.java
+/app/src/main/java/com/example/whatsapp/dto/MessageRequest.java
+/app/src/main/java/com/example/whatsapp/dto/TemplateLanguage.java
+/app/src/main/java/com/example/whatsapp/dto/TemplateMessage.java
+/app/src/main/java/com/example/whatsapp/dto/TextMessage.java
+/app/src/main/java/com/example/whatsapp/dto/Value.java
+/app/src/main/java/com/example/whatsapp/dto/WebhookPayload.java
+/app/src/main/java/com/example/whatsapp/exception/GlobalExceptionHandler.java
+/app/src/main/java/com/example/whatsapp/security/SignatureValidator.java
+/app/src/main/java/com/example/whatsapp/service/WhatsappService.java
