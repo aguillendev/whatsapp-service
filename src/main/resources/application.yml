@@ -7,8 +7,8 @@ spring:
       enabled: true
 
 whatsapp:
-  access-token: "your-access-token"
-  phone-number-id: "your-phone-number-id"
-  verify-token: "your-verify-token"
-  app-secret: "your-app-secret"
-  api-version: "v19.0"
+  access-token: "EAAXw9TM5ZAGUBQ8iPZAOV9WnRkTfkTWSPdAOY2jtWuyj19PlSL89gPQreJKn1vmUjKAgYoAZB6CYCANEZCR7IiVhOE3UG7OjerqZCcOHJaAijyw2hQeNmuZBSo4vZCS0CDxc29dbRdPEZBgRTvxICP5sy97OHIrjUiOAFZALqsP10hjuppWZANK24ATnd13jB7j4HqQwxCT24od3p3x8eUvmdjzIuNyOCwujBu7BptBzJWD056ZCchMDZBItjNJJvmZAEUM4eAWQ5QXroq7B3JKebi8UxHJVd"
+  phone-number-id: "978744951997011"
+  verify-token: "playmatch"
+  app-secret: "playmatch"
+  api-version: "v25.0"

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a1a;
+            line-height: 1.7;
+        }
+
+        header {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.85;
+        }
+
+        .container {
+            max-width: 820px;
+            margin: 40px auto;
+            padding: 0 24px 60px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px 48px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #128C7E;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f2f5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h2 .icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .card p {
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .card ul {
+            padding-left: 20px;
+            color: #444;
+        }
+
+        .card ul li {
+            margin-bottom: 8px;
+        }
+
+        .highlight-box {
+            background: #f0faf4;
+            border-left: 4px solid #25D366;
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin-top: 12px;
+            color: #1a5c40;
+            font-size: 0.95rem;
+        }
+
+        .last-updated {
+            text-align: center;
+            color: #888;
+            font-size: 0.85rem;
+            margin-top: 32px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: #888;
+            font-size: 0.85rem;
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 28px 24px;
+            }
+            header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔒 Política de Privacidad</h1>
+    <p>Cómo recopilamos, usamos y protegemos tu información</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2><span class="icon">📋</span> 1. Información que recopilamos</h2>
+        <p>A través de nuestro servicio de mensajería mediante WhatsApp Business API, podemos recopilar la siguiente información:</p>
+        <ul>
+            <li>Número de teléfono de WhatsApp del usuario</li>
+            <li>Contenido de los mensajes enviados a nuestro servicio</li>
+            <li>Fecha y hora de las interacciones</li>
+            <li>Metadatos de entrega de mensajes (enviado, entregado, leído)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon">🎯</span> 2. Cómo usamos tu información</h2>
+        <p>La información recopilada se utiliza exclusivamente para:</p>
+        <ul>
+            <li>Responder a tus consultas y solicitudes enviadas por WhatsApp</li>
+            <li>Mejorar la calidad de nuestro servicio de atención</li>
+            <li>Cumplir con obligaciones legales aplicables</li>
+            <li>Garantizar la seguridad y el correcto funcionamiento del servicio</li>
+        </ul>
+        <div class="highlight-box">
+            ✅ <strong>No vendemos ni compartimos</strong> tu información personal con terceros sin tu consentimiento explícito.
+        </div>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon">💬</span> 3. Uso de WhatsApp Business API</h2>
+        <p>Este servicio utiliza la <strong>API de WhatsApp Business de Meta Platforms, Inc.</strong> Al interactuar con nosotros a través de WhatsApp, también aplican los <a href="https://www.whatsapp.com/legal/privacy-policy" target="_blank" style="color:#128C7E">Términos de Privacidad de WhatsApp</a>.</p>
+        <p>Solo nos comunicamos con usuarios que han iniciado o aceptado la conversación, en cumplimiento con las políticas de mensajería de Meta.</p>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon">🔐</span> 4. Seguridad de los datos</h2>
+        <p>Implementamos medidas técnicas y organizativas para proteger tu información:</p>
+        <ul>
+            <li>Comunicaciones cifradas mediante HTTPS/TLS</li>
+            <li>Validación de firma en todos los webhooks entrantes (HMAC-SHA256)</li>
+            <li>Acceso restringido a los datos únicamente al personal autorizado</li>
+            <li>Revisiones periódicas de seguridad</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon">⏱️</span> 5. Retención de datos</h2>
+        <p>Los datos de las conversaciones se conservan únicamente durante el tiempo necesario para cumplir con la finalidad para la que fueron recopilados, o mientras lo exija la legislación vigente.</p>
+        <p>Podés solicitar la eliminación de tus datos en cualquier momento contactándonos.</p>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon">✋</span> 6. Tus derechos</h2>
+        <p>Como usuario, tenés derecho a:</p>
+        <ul>
+            <li><strong>Acceso:</strong> Conocer qué datos tenemos sobre vos</li>
+            <li><strong>Rectificación:</strong> Corregir datos incorrectos</li>
+            <li><strong>Eliminación:</strong> Solicitar el borrado de tus datos</li>
+            <li><strong>Oposición:</strong> Oponerte al tratamiento de tus datos</li>
+            <li><strong>Portabilidad:</strong> Recibir tus datos en formato estructurado</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2><span class="icon">📬</span> 7. Contacto</h2>
+        <p>Para cualquier consulta relacionada con esta política de privacidad o para ejercer tus derechos, podés contactarnos a través de:</p>
+        <ul>
+            <li>WhatsApp: mediante el mismo canal de comunicación</li>
+        </ul>
+    </div>
+
+    <p class="last-updated">Última actualización: Marzo 2026</p>
+
+</div>
+
+<footer>
+    &copy; 2026 · Servicio de WhatsApp · Todos los derechos reservados
+</footer>
+
+</body>
+</html>
