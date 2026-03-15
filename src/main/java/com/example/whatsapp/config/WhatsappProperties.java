@@ -8,6 +8,7 @@ public record WhatsappProperties(
         String phoneNumberId,
         String verifyToken,
         String appSecret,
-        String apiVersion
+        String apiVersion,
+        boolean normalizeArgentineNumbers
 ) {
 }

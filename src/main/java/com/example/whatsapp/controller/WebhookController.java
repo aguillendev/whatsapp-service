@@ -1,8 +1,11 @@
 package com.example.whatsapp.controller;
 
 import com.example.whatsapp.config.WhatsappProperties;
+import com.example.whatsapp.dto.Message;
 import com.example.whatsapp.dto.WebhookPayload;
 import com.example.whatsapp.security.SignatureValidator;
+import com.example.whatsapp.service.McpClientService;
+import com.example.whatsapp.service.WhatsappService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,12 +28,19 @@ public class WebhookController {
     private final WhatsappProperties properties;
     private final SignatureValidator signatureValidator;
     private final ObjectMapper objectMapper;
+    private final McpClientService mcpClientService;
+    private final WhatsappService whatsappService;
 
-    public WebhookController(WhatsappProperties properties, SignatureValidator signatureValidator,
-            ObjectMapper objectMapper) {
+    public WebhookController(WhatsappProperties properties,
+                             SignatureValidator signatureValidator,
+                             ObjectMapper objectMapper,
+                             McpClientService mcpClientService,
+                             WhatsappService whatsappService) {
         this.properties = properties;
         this.signatureValidator = signatureValidator;
         this.objectMapper = objectMapper;
+        this.mcpClientService = mcpClientService;
+        this.whatsappService = whatsappService;
     }
 
     @Operation(
@@ -57,8 +67,8 @@ public class WebhookController {
 
     @Operation(
             summary = "Recibir mensaje entrante",
-            description = "Meta envía a este endpoint los mensajes entrantes, actualizaciones de estado y otros eventos. "
-                    + "Valida la firma HMAC-SHA256 del payload para garantizar que el origen es Meta.",
+            description = "Meta envía a este endpoint los mensajes entrantes. Valida la firma HMAC-SHA256, "
+                    + "extrae el texto del mensaje, lo procesa con el LLM (mcp-client) y responde al usuario.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Evento recibido y procesado"),
                     @ApiResponse(responseCode = "401", description = "Firma inválida"),
@@ -73,8 +83,7 @@ public class WebhookController {
         boolean devMode = PLACEHOLDER_SECRET.equals(properties.appSecret());
 
         if (devMode) {
-            log.warn(
-                    "[DEV MODE] Validación de firma omitida. Configurá 'app-secret' en application.yml para habilitar la seguridad.");
+            log.warn("[DEV MODE] Validación de firma omitida. Configurá 'app-secret' en application.yml para habilitar la seguridad.");
         } else if (!signatureValidator.isValidSignature(rawPayload, signatureHeader)) {
             log.error("Firma inválida. Header recibido: {}", signatureHeader);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid signature");
@@ -84,7 +93,31 @@ public class WebhookController {
 
         try {
             WebhookPayload payload = objectMapper.readValue(rawPayload, WebhookPayload.class);
-            log.info("Payload procesado: {}", payload);
+
+            // Recorrer entries y changes para detectar mensajes de texto entrantes
+            if (payload.entry() != null) {
+                for (var entry : payload.entry()) {
+                    if (entry.changes() == null) continue;
+                    for (var change : entry.changes()) {
+                        if (change.value() == null || change.value().messages() == null) continue;
+                        for (Message message : change.value().messages()) {
+                            if (!"text".equals(message.type()) || message.text() == null) {
+                                log.info("Evento ignorado (no es mensaje de texto): tipo={}", message.type());
+                                continue;
+                            }
+                            String from = message.from();
+                            String userText = message.text().body();
+                            log.info("Mensaje de texto recibido de {}: {}", from, userText);
+
+                            // Procesar con el LLM via mcp-client (el from es el ID de sesión)
+                            String aiResponse = mcpClientService.processMessage(from, userText);
+
+                            // Responder al usuario por WhatsApp
+                            whatsappService.sendTextMessage(from, aiResponse);
+                        }
+                    }
+                }
+            }
 
             return ResponseEntity.ok("EVENT_RECEIVED");
         } catch (JsonProcessingException e) {
@@ -92,4 +125,4 @@ public class WebhookController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid JSON payload");
         }
     }
-}
+}

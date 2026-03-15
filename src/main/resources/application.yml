@@ -7,8 +7,12 @@ spring:
       enabled: true
 
 whatsapp:
-  access-token: "EAAXw9TM5ZAGUBQ8iPZAOV9WnRkTfkTWSPdAOY2jtWuyj19PlSL89gPQreJKn1vmUjKAgYoAZB6CYCANEZCR7IiVhOE3UG7OjerqZCcOHJaAijyw2hQeNmuZBSo4vZCS0CDxc29dbRdPEZBgRTvxICP5sy97OHIrjUiOAFZALqsP10hjuppWZANK24ATnd13jB7j4HqQwxCT24od3p3x8eUvmdjzIuNyOCwujBu7BptBzJWD056ZCchMDZBItjNJJvmZAEUM4eAWQ5QXroq7B3JKebi8UxHJVd"
+  access-token: "EAAXw9TM5ZAGUBQwIvZAyXoGZAHx1Mc2ZAzy1JykiALJy0nXTQfAzyZA1ZBPZA3Aq1uCh11uaCCKa1kYnRZAZCLaYv7THHrLn6hVtWOmT9DXSJJmUb7ZBZBpRSZCixtVGU6VwFhUex1UiWqsxKuP63bTx67Jk6v6EErkWLXJSJS8mAeIKhR6uBouZBsaNac2DaeCyQVTIgptPrdWEx1ZBRZCCgidZAdpKKIGGUzrySWCmRCFZCu1FhS258mZCVdUCD77IPa712VhyOKwp7VnkaPTxnQLZCT9ZC5FYREwj"
   phone-number-id: "978744951997011"
   verify-token: "playmatch"
   app-secret: "playmatch"
   api-version: "v25.0"
+  normalize-argentine-numbers: true
+
+mcp-client:
+  url: http://localhost:8082

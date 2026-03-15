@@ -21,13 +21,31 @@ public class WhatsappService {
     }
 
     public void sendTextMessage(String to, String message) {
-        MessageRequest request = MessageRequest.createText(to, message);
+        MessageRequest request = MessageRequest.createText(normalizePhoneNumber(to), message);
         sendMessage(request);
     }
 
     public void sendTemplateMessage(String to, String templateName, String languageCode) {
-        MessageRequest request = MessageRequest.createTemplate(to, templateName, languageCode);
+        MessageRequest request = MessageRequest.createTemplate(normalizePhoneNumber(to), templateName, languageCode);
         sendMessage(request);
+    }
+
+    /**
+     * Normaliza números argentinos eliminando el '9' entre el código de país (54)
+     * y el número de área: 549XXXXXXXXXX → 54XXXXXXXXXX.
+     * Solo aplica si la propiedad 'whatsapp.normalize-argentine-numbers' está en true.
+     */
+    private String normalizePhoneNumber(String phoneNumber) {
+        if (!properties.normalizeArgentineNumbers()) {
+            return phoneNumber;
+        }
+        // Formato argentino vía WhatsApp: 549 + 10 dígitos = 13 dígitos en total
+        if (phoneNumber != null && phoneNumber.startsWith("549") && phoneNumber.length() == 13) {
+            String normalized = "54" + phoneNumber.substring(3);
+            log.debug("Número normalizado: {} → {}", phoneNumber, normalized);
+            return normalized;
+        }
+        return phoneNumber;
     }
 
     private void sendMessage(MessageRequest request) {
@@ -45,4 +63,4 @@ public class WhatsappService {
             throw e;
         }
     }
-}
+}
