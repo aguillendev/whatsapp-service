@@ -1,15 +1,19 @@
 package com.example.whatsapp.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public record Message(
         String from,
         String id,
         String timestamp,
         String type,
-        Text text
+        Text text,
+        Audio audio
 ) {
     public record Text(
             String body
+    ) {}
+
+    public record Audio(
+            String id,
+            String mimeType
     ) {}
 }

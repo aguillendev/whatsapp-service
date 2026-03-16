@@ -4,6 +4,7 @@ import com.example.whatsapp.config.WhatsappProperties;
 import com.example.whatsapp.dto.Message;
 import com.example.whatsapp.dto.WebhookPayload;
 import com.example.whatsapp.security.SignatureValidator;
+import com.example.whatsapp.service.AudioTranscriptionService;
 import com.example.whatsapp.service.McpClientService;
 import com.example.whatsapp.service.WhatsappService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,17 +31,20 @@ public class WebhookController {
     private final ObjectMapper objectMapper;
     private final McpClientService mcpClientService;
     private final WhatsappService whatsappService;
+    private final AudioTranscriptionService audioTranscriptionService;
 
     public WebhookController(WhatsappProperties properties,
                              SignatureValidator signatureValidator,
                              ObjectMapper objectMapper,
                              McpClientService mcpClientService,
-                             WhatsappService whatsappService) {
+                             WhatsappService whatsappService,
+                             AudioTranscriptionService audioTranscriptionService) {
         this.properties = properties;
         this.signatureValidator = signatureValidator;
         this.objectMapper = objectMapper;
         this.mcpClientService = mcpClientService;
         this.whatsappService = whatsappService;
+        this.audioTranscriptionService = audioTranscriptionService;
     }
 
     @Operation(
@@ -101,13 +105,29 @@ public class WebhookController {
                     for (var change : entry.changes()) {
                         if (change.value() == null || change.value().messages() == null) continue;
                         for (Message message : change.value().messages()) {
-                            if (!"text".equals(message.type()) || message.text() == null) {
-                                log.info("Evento ignorado (no es mensaje de texto): tipo={}", message.type());
+                            String from = message.from();
+                            String userText = null;
+
+                            if ("text".equals(message.type()) && message.text() != null) {
+                                userText = message.text().body();
+                                log.info("Mensaje de texto recibido de {}: {}", from, userText);
+
+                            } else if ("audio".equals(message.type()) && message.audio() != null) {
+                                String mediaId = message.audio().id();
+                                log.info("Mensaje de audio recibido de {}, mediaId={}", from, mediaId);
+                                userText = audioTranscriptionService.transcribe(mediaId);
+                                if (userText == null) {
+                                    log.warn("No se pudo transcribir el audio de {}", from);
+                                    whatsappService.sendTextMessage(from,
+                                            "Lo siento, no pude entender el audio. ¿Podés repetirlo o escribirme?");
+                                    continue;
+                                }
+                                log.info("Audio transcripto de {}: {}", from, userText);
+
+                            } else {
+                                log.info("Evento ignorado (tipo no soportado): tipo={}", message.type());
                                 continue;
                             }
-                            String from = message.from();
-                            String userText = message.text().body();
-                            log.info("Mensaje de texto recibido de {}: {}", from, userText);
 
                             // Procesar con el LLM via mcp-client (el from es el ID de sesión)
                             String aiResponse = mcpClientService.processMessage(from, userText);
